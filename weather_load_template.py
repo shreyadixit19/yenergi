@@ -15,6 +15,7 @@ e.g. Student.query.all() => [<Student 0>, <Student 1>,..., <Student 6216>]
 from application import db, Weather
 
 DATA_FILE_PATH = "./data/weather.tsv"
+db.drop_all()
 
 db.create_all()
 
@@ -27,7 +28,7 @@ with open(DATA_FILE_PATH) as file:
 		#attrs = {att: val for att, val in zip(header, line.rstrip().split('\t'))}
 		row = Weather(**attrs)
 		db.session.add(row)
-		#print Weather.serialize(row)
+		print Weather.serialize(row)
 db.session.commit()
 result = db.engine.execute('SELECT * FROM "WEATHER"')
 for _r in result:

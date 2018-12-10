@@ -126,7 +126,7 @@ class Weather(db.Model):
 def index():
 	#usage_load_template.load(db, Usage)
 	#return jsonify(Building.query.all()[0].serialize())
-	return jsonify(Student.query.all()[0].serialize())
+	return jsonify(Usage.query.all()[0].serialize())
 
 def print_dict(s):
 	print '{'
