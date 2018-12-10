@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
+import usage_load_template
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
@@ -97,12 +98,14 @@ class Usage(db.Model):
 		}
 
 class Weather(db.Model):
-	date = db.Column(db.String(255), primary_key=True)
+	date = db.Column('date', db.String(255), primary_key=True)
 	station = db.Column(db.String(255))
 	name = db.Column(db.String(255))
 	awnd = db.Column(db.String(255))
-	snwd = db.Column(db.String(255))
+	snow = db.Column(db.String(255))
 	tavg = db.Column(db.String(255))
+	tmax = db.Column(db.String(255))
+	tmin = db.Column(db.String(255))
 
 
 
@@ -113,12 +116,16 @@ class Weather(db.Model):
 			"station": self.station,
 			"name": self.name,
 			"awnd": self.awnd,
-			"snwd": self.snwd,
+			"snow": self.snow,
 			"tavg": self.tavg,
+			"tmax": self.tmax,
+			"tmin": self.tmin
 		}
 
 @app.route("/")
 def index():
+	#usage_load_template.load(db, Usage)
+	#return jsonify(Building.query.all()[0].serialize())
 	return jsonify(Student.query.all()[0].serialize())
 
 def print_dict(s):
