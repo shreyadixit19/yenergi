@@ -21,6 +21,7 @@ db.create_all()
 # print(result.first())
 
 # Load Usage
+print("loading Usage...")
 
 with open(DATA_FILE_PATH) as file:
 	header = next(file).rstrip().split()
@@ -38,6 +39,7 @@ with open(DATA_FILE_PATH) as file:
 db.session.commit()
 
 # Load Aggregateusage
+print("loading Aggregateusage...")
 
 results = db.engine.execute('SELECT usage_id, facid, buildingname, usagemonth, SUM(globaluse), SUM(globalsqftuse) FROM "USAGE" GROUP BY buildingname, usagemonth')
 
@@ -48,7 +50,7 @@ for item_list in results:
 		"buildingname": item_list[2],
 		"usagemonth": item_list[3],
 		"globaluse": item_list[4],
-		"globalsqftuse": item_list[5],
+		"globalsqftuse": item_list[5]
 	}
 	row = Aggregateusage(**item_list)
 	db.session.add(row)
@@ -56,6 +58,7 @@ for item_list in results:
 db.session.commit()
 
 # Load Building
+print("loading Building...")
 
 DATA_FILE_PATH = "./data/buildings.tsv"
 
