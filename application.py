@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 # import usage_load_template
 # from flask_heroku import Heroku
 
@@ -7,6 +8,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 # heroku = Heroku(app)
 db = SQLAlchemy(app)
+CORS(app)
+
 
 class Student(db.Model):
     student_id = db.Column(db.Integer, primary_key=True)
@@ -142,10 +145,7 @@ class Weather(db.Model):
 
 @app.route("/")
 def index():
-	#usage_load_template.load(db, Usage)
-	#return jsonify(Building.query.all()[0].serialize())
-	
-	return jsonify(Usage.query.all()[0].serialize())
+	return "hi!"
 
 @app.route("/energyovertime")
 def energyovertime():
