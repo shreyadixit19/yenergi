@@ -4,8 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 # from flask_heroku import Heroku
 
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-heroku = Heroku(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+# heroku = Heroku(app)
 db = SQLAlchemy(app)
 
 class Student(db.Model):
@@ -147,11 +147,35 @@ def index():
 	
 	return jsonify(Usage.query.all()[0].serialize())
 
+@app.route("/energyovertime")
 def energyovertime():
-	result = db.engine.execute('SELECT Building.latitude, Building.longitude, Aggregateusage.globaluse, Aggregateusage.globalsqftuse FROM "Aggregateusage" JOIN "Building" ON Aggregateusage.facid=Building.building')
+	result = db.engine.execute('SELECT Aggregateusage.facid, Building.latitude, Building.longitude, Aggregateusage.globaluse, Aggregateusage.globalsqftuse FROM "Aggregateusage" JOIN "Building" ON Aggregateusage.facid=Building.building')
 	all_buildings = {}
 	for thing in result:
-		all_buildings[(thing[0], thing[1])] = thing[2]
+		if thing[1] == '[]':
+			continue
+
+		thing = {
+			'lat':float(thing[1]),
+			'lng':float(thing[2]),
+			'id':float(thing[0]),
+			'usage':[float(thing[3])],
+			'sqftusage':[float(thing[4])]
+		}
+
+		if thing['id'] in all_buildings:
+			minidict = all_buildings[thing['id']]
+			minidict['usage'].append(thing['usage'][0])
+			minidict['sqftusage'].append(thing['sqftusage'][0])
+		else:
+			all_buildings[thing['id']] = thing
+
+	all_buildings = list(all_buildings.values())
+
+	for building in all_buildings:
+		if len(building['usage']) < 182:
+			building['usage'] = [0]*(182-len(building['usage'])) + building['usage']
+			building['sqftusage'] = [0]*(182-len(building['sqftusage'])) + building['sqftusage']
 
 	return jsonify(all_buildings)
 
