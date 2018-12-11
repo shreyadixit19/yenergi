@@ -217,7 +217,7 @@ def recenergy():
 
 @app.route("/students")
 def students():
-	result = db.engine.execute('SELECT Building.building, Building.latitude, Building.longitude, COUNT(Student.student_id), Building.description FROM Student Join Building ON Student.college=Building.description GROUP BY Building.building')
+	result = db.engine.execute('SELECT Building.building AS id, Building.latitude AS lat, Building.longitude AS lng, COUNT(Student.student_id) AS count, Building.description FROM Student Join Building ON Student.college=Building.description GROUP BY Building.building')
 
 	results = []
 	for thing in result:
