@@ -1,8 +1,11 @@
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
+# import usage_load_template
+# from flask_heroku import Heroku
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+heroku = Heroku(app)
 db = SQLAlchemy(app)
 
 class Student(db.Model):
@@ -141,6 +144,7 @@ class Weather(db.Model):
 def index():
 	#usage_load_template.load(db, Usage)
 	#return jsonify(Building.query.all()[0].serialize())
+	
 	return jsonify(Usage.query.all()[0].serialize())
 
 def energyovertime():
@@ -151,9 +155,10 @@ def energyovertime():
 
 	return jsonify(all_buildings)
 
-def print_dict(s):
-	print('{')
-	for line in s.split('\n'):
-		v = line.lstrip().split(' ')[0]
-		print('\t"{}": self.{},'.format(v, v))
-	print('}')
+# def print_dict(s):
+# 	print('{')
+# 	for line in s.split('\n'):
+# 		v = line.lstrip().split(' ')[0]
+# 		print('\t"{}": self.{},'.format(v, v))
+# 	print('}')
+

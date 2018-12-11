@@ -21,9 +21,9 @@ db.create_all()
 with open(DATA_FILE_PATH) as file:
 	header = next(file).rstrip().split()
 	header = [x.lower() for x in header]
-	print header
+	print (header)
 	for line in file:
-		attrs = {att: val.decode('utf-8') for att, val in zip(header, line.rstrip().split('\t')) if att in header}
+		attrs = {att: val.decode('utf-8') for att, val in zip(header, line.rstrip().split('\t'))}
 		if len(attrs) >= 16: 
 			#attrs = {att: val for att, val in zip(header, line.rstrip().split('\t'))}
 			row = Building(**attrs)
@@ -32,8 +32,9 @@ with open(DATA_FILE_PATH) as file:
 			print Building.serialize(row)
 db.session.commit()
 result = db.engine.execute('SELECT * FROM "Building"')
-for _r in result:
-   print(_r)
-#print result.first()
+
 
 exit()
+
+
+result = db.engine.execute('SELECT Building.longitude, Building.latitude, Usage.usagemonth, Usage.commonuse FROM Usage INNER JOIN Buildings ON Usage.facid = Buildings.building')
