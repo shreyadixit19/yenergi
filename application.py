@@ -1,6 +1,5 @@
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
-import usage_load_template
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
@@ -22,22 +21,21 @@ class Student(db.Model):
 		}
 
 class Building(db.Model):
+	building = db.Column(db.String(255), primary_key=True)
+	status = db.Column(db.String(255))
+	description = db.Column(db.String(255))
+	historical_alias = db.Column(db.String(255))
+	address_3 = db.Column(db.String(255))
 	site = db.Column(db.String(255))
-	building = db.Column(db.Integer, primary_key=True)
-	building_abbr = db.Column(db.String(255))
-	description = db.Column(db.String(1000))
-	usage_description = db.Column(db.String(255))
+	longitude = db.Column(db.String(255))
+	msag_alias = db.Column(db.String(255))
+	historical_name = db.Column(db.String(255))
 	address_1 = db.Column(db.String(255))
 	address_2 = db.Column(db.String(255))
-	address_3 = db.Column(db.String(255))
-	status = db.Column(db.String(255))
-	historical_alias = db.Column(db.String(255))
-	addr1_alias = db.Column(db.String(255))
-	msag_alias = db.Column(db.String(255))
+	building_abbr = db.Column(db.String(255))
 	latitude = db.Column(db.String(255))
-	longitude = db.Column(db.String(255))
-	historical_name = db.Column(db.String(255))
-	building_prose = db.Column(db.String(255))
+	addr1_alias = db.Column(db.String(255))
+	usage_description = db.Column(db.String(255))
 
 	def serialize(self):
 		return {
@@ -56,7 +54,6 @@ class Building(db.Model):
 			"latitude": self.latitude,
 			"longitude": self.longitude,
 			"historical_name": self.historical_name,
-			"building_prose": self.building_prose,
 		}
 
 class Usage(db.Model):
@@ -97,6 +94,24 @@ class Usage(db.Model):
 			"globalsqftuseunit": self.globalsqftuseunit,
 		}
 
+class Aggregateusage(db.Model):
+	usage_id = db.Column(db.String(255), primary_key=True)
+	buildingname = db.Column(db.String(255))
+	facid = db.Column(db.String(255))
+	usagemonth = db.Column(db.String(255))
+	globaluse = db.Column(db.String(255))
+	globalsqftuse = db.Column(db.String(255))
+
+	def serialize(self):
+		return {
+			"usage_id": self.usage_id,
+			"facid": self.facid,
+			"buildingname": self.buildingname,
+			"usagemonth": self.usagemonth,
+			"globaluse": self.globaluse,
+			"globalsqftuse": self.globalsqftuse,
+		}
+
 class Weather(db.Model):
 	date = db.Column('date', db.String(255), primary_key=True)
 	station = db.Column(db.String(255))
@@ -128,9 +143,17 @@ def index():
 	#return jsonify(Building.query.all()[0].serialize())
 	return jsonify(Usage.query.all()[0].serialize())
 
+def energyovertime():
+	result = db.engine.execute('SELECT Building.latitude, Building.longitude, Aggregateusage.globaluse, Aggregateusage.globalsqftuse FROM "Aggregateusage" JOIN "Building" ON Aggregateusage.facid=Building.building')
+	all_buildings = {}
+	for thing in result:
+		all_buildings[(thing[0], thing[1])] = thing[2]
+
+	return jsonify(all_buildings)
+
 def print_dict(s):
-	print '{'
+	print('{')
 	for line in s.split('\n'):
 		v = line.lstrip().split(' ')[0]
-		print '\t"{}": self.{},'.format(v, v)
-	print '}'
+		print('\t"{}": self.{},'.format(v, v))
+	print('}')
