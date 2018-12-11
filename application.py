@@ -130,9 +130,9 @@ def index():
 	#return jsonify(Building.query.all()[0].serialize())
 	return jsonify(Usage.query.all()[0].serialize())
 
-def print_dict(s):
-	print '{'
-	for line in s.split('\n'):
-		v = line.lstrip().split(' ')[0]
-		print '\t"{}": self.{},'.format(v, v)
-	print '}'
+#def print_dict(s):
+#	print '{'
+#	for line in s.split('\n'):
+#		v = line.lstrip().split(' ')[0]
+#		print '\t"{}": self.{},'.format(v, v)
+#	print '}'
