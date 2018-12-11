@@ -159,8 +159,8 @@ def energyovertime():
 			'lat':float(thing[1]),
 			'lng':float(thing[2]),
 			'id':float(thing[0]),
-			'usage':[float(thing[3])],
-			'sqftusage':[float(thing[4])]
+			'usage':[(float(thing[3]) if float(thing[3]) < 100000 else 100000)],
+			'sqftusage':[(float(thing[4]) if float(thing[4]) < 100000 else 100000)]
 		}
 
 		if thing['id'] in all_buildings:
@@ -176,6 +176,7 @@ def energyovertime():
 		if len(building['usage']) < 182:
 			building['usage'] = [0]*(182-len(building['usage'])) + building['usage']
 			building['sqftusage'] = [0]*(182-len(building['sqftusage'])) + building['sqftusage']
+
 
 	return jsonify(all_buildings)
 
