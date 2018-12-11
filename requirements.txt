@@ -29,7 +29,6 @@ prettytable==0.7.2
 protobuf==3.6.1
 psycopg2==2.7.6.1
 py2app==0.7.3
-pyobjc-core==2.5.1
 pyobjc-framework-Accounts==2.5.1
 pyobjc-framework-AddressBook==2.5.1
 pyobjc-framework-AppleScriptKit==2.5.1
