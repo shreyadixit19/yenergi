@@ -181,6 +181,40 @@ def energyovertime():
 
 	return jsonify(all_buildings)
 
+@app.route("/rcenergy")
+def recenergy():
+	result = db.engine.execute('SELECT Aggregateusage.facid, Building.latitude, Building.longitude, Aggregateusage.globaluse, Aggregateusage.globalsqftuse, Building.description FROM "Aggregateusage" JOIN "Building" ON Aggregateusage.facid=Building.building WHERE Aggregateusage.facid IN (2420, 2510, 1820, 2035, 2500, 2505, 2050, 2100, 2145, 2040, 2425, 1350, 1354, 1800)')
+	all_buildings = {}
+	for thing in result:
+		if thing[1] == '[]':
+			continue
+
+		thing = {
+			'lat':float(thing[1]),
+			'lng':float(thing[2]),
+			'id':float(thing[0]),
+			'usage':[float(thing[3])],
+			'sqftusage':[float(thing[4])],
+			'description':thing[5]
+		}
+
+		if thing['id'] in all_buildings:
+			minidict = all_buildings[thing['id']]
+			minidict['usage'].append(thing['usage'][0])
+			minidict['sqftusage'].append(thing['sqftusage'][0])
+		else:
+			all_buildings[thing['id']] = thing
+
+	all_buildings = list(all_buildings.values())
+
+	for building in all_buildings:
+		if len(building['usage']) < 182:
+			building['usage'] = [0]*(182-len(building['usage'])) + building['usage']
+			building['sqftusage'] = [0]*(182-len(building['sqftusage'])) + building['sqftusage']
+
+
+	return jsonify(all_buildings)
+
 @app.route("/students")
 def students():
 	result = db.engine.execute('SELECT Building.building, Building.latitude, Building.longitude, COUNT(Student.student_id), Building.description FROM Student Join Building ON Student.college=Building.description GROUP BY Building.building')
