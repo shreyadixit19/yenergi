@@ -12,7 +12,7 @@ You can check whether it was successfully by quering for the entire table:
 e.g. Student.query.all() => [<Student 0>, <Student 1>,..., <Student 6216>]
 """
 
-from application import db, Usage, Aggregateusage, Building, Student
+from application import db, Usage, Aggregateusage, Building, Student, Weather
 DATA_FILE_PATH = "./data/usage.tsv"
 
 db.drop_all()
@@ -93,6 +93,25 @@ with open(DATA_FILE_PATH) as file:
 		# print(attrs)
 		# break
 		row = Student(**attrs)
+		db.session.add(row)
+
+db.session.commit()
+
+# Load Weather
+print("loading Weather...")
+
+DATA_FILE_PATH = "./data/weather.tsv"
+
+with open(DATA_FILE_PATH) as file:
+	header = next(file).rstrip().split()
+	header = [x.lower() for x in header]
+	#print header
+	for line in file:
+		attrs = {att: val for att, val in zip(header, line.rstrip().split('\t'))}
+		#attrs = {att: val for att, val in zip(header, line.rstrip().split('\t'))}
+		# print(attrs)
+		# break
+		row = Weather(**attrs)
 		db.session.add(row)
 
 db.session.commit()

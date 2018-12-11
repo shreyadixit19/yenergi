@@ -188,6 +188,21 @@ def students():
 	results = []
 	for thing in result:
 		results.append(dict(thing))
+
+	return jsonify(results)
+
+@app.route("/weather")
+def weather():
+	result = db.engine.execute('SELECT Weather.date, Weather.tavg FROM Weather JOIN Aggregateusage ON weather.date=Aggregateusage.usagemonth WHERE Aggregateusage.facid=2050')
+
+	results = []
+	for thing in result:
+		minidict = dict(thing)
+		try:
+			results.append(float(minidict['tavg']))
+		except:
+			results.append(0.0)
+
 		
 	return jsonify(results)
 
