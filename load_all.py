@@ -19,6 +19,7 @@ db.drop_all()
 db.create_all()
 
 # print(result.first())
+# exec(open("./load_all.py").read())
 
 # Load Usage
 print("loading Usage...")

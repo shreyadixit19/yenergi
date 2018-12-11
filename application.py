@@ -149,7 +149,7 @@ def index():
 
 @app.route("/energyovertime")
 def energyovertime():
-	result = db.engine.execute('SELECT Aggregateusage.facid, Building.latitude, Building.longitude, Aggregateusage.globaluse, Aggregateusage.globalsqftuse Building.description FROM "Aggregateusage" JOIN "Building" ON Aggregateusage.facid=Building.building')
+	result = db.engine.execute('SELECT Aggregateusage.facid, Building.latitude, Building.longitude, Aggregateusage.globaluse, Aggregateusage.globalsqftuse, Building.description FROM "Aggregateusage" JOIN "Building" ON Aggregateusage.facid=Building.building')
 	all_buildings = {}
 	for thing in result:
 		if thing[1] == '[]':
@@ -160,8 +160,8 @@ def energyovertime():
 			'lng':float(thing[2]),
 			'id':float(thing[0]),
 			'usage':[(float(thing[3]) if float(thing[3]) < 100 else 0)],
-			'sqftusage':[(float(thing[4]) if float(thing[4]) < 100 else 0)]
-			'description':float(thing[5]),
+			'sqftusage':[(float(thing[4]) if float(thing[4]) < 100 else 0)],
+			'description':thing[5]
 		}
 
 		if thing['id'] in all_buildings:
