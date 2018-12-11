@@ -181,6 +181,16 @@ def energyovertime():
 
 	return jsonify(all_buildings)
 
+@app.route("/students")
+def students():
+	result = db.engine.execute('SELECT Building.building, Building.latitude, Building.longitude, COUNT(Student.student_id), Building.description FROM Student Join Building ON Student.college=Building.description GROUP BY Building.building')
+
+	results = []
+	for thing in result:
+		results.append(dict(thing))
+		
+	return jsonify(results)
+
 # def print_dict(s):
 # 	print('{')
 # 	for line in s.split('\n'):
