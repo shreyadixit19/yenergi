@@ -2,11 +2,11 @@ from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 # import usage_load_template
-# from flask_heroku import Heroku
+from flask_heroku import Heroku
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-# heroku = Heroku(app)
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+heroku = Heroku(app)
 db = SQLAlchemy(app)
 CORS(app)
 
