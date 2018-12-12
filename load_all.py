@@ -28,13 +28,14 @@ with open(DATA_FILE_PATH) as file:
 	header = next(file).rstrip().split()
 	header = [x.lower() for x in header]
 	#print header
-	for line in file:
+	for i, line in enumerate(file):
 		attrs = {(att if att != "rowid" else "usage_id"): val for att, val in zip(header, line.rstrip().split('\t'))}
 		#attrs = {att: val for att, val in zip(header, line.rstrip().split('\t'))}
 		# print(attrs)
 		# break
 		row = Usage(**attrs)
 		db.session.add(row)
+		print "{} finished".format(i)
 		#print Usage.serialize(row)
 
 db.session.commit()
