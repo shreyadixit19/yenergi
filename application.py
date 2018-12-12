@@ -183,7 +183,7 @@ def energyovertime():
 
 @app.route("/rcenergy")
 def recenergy():
-	result = db.engine.execute('SELECT Aggregateusage.facid, Building.latitude, Building.longitude, Aggregateusage.globaluse, Aggregateusage.globalsqftuse, Building.description FROM Aggregateusage JOIN Building ON Aggregateusage.facid=Building.building WHERE Aggregateusage.facid IN (2420, 2510, 1820, 2035, 2500, 2505, 2050, 2100, 2145, 2040, 2425, 1350, 1354, 1800)')
+	result = db.engine.execute("SELECT Aggregateusage.facid, Building.latitude, Building.longitude, Aggregateusage.globaluse, Aggregateusage.globalsqftuse, Building.description FROM Aggregateusage JOIN Building ON Aggregateusage.facid=Building.building WHERE Aggregateusage.facid IN ('2420', '2510', '1820', '2035', '2500', '2505', '2050', '2100', '2145', '2040', '2425', '1350', '1354', '1800')")
 	all_buildings = {}
 	for thing in result:
 		if thing[1] == '[]':
@@ -227,7 +227,7 @@ def students():
 
 @app.route("/weather")
 def weather():
-	result = db.engine.execute('SELECT Weather.date, Weather.tavg FROM Weather JOIN Aggregateusage ON weather.date=Aggregateusage.usagemonth WHERE Aggregateusage.facid=2050')
+	result = db.engine.execute("SELECT Weather.date, Weather.tavg FROM Weather JOIN Aggregateusage ON weather.date=Aggregateusage.usagemonth WHERE Aggregateusage.facid='2050'")
 
 	results = []
 	for thing in result:
