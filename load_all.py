@@ -22,42 +22,42 @@ db.create_all()
 # exec(open("./load_all.py").read())
 
 # Load Usage
-print("loading Usage...")
+# print("loading Usage...")
 
-with open(DATA_FILE_PATH) as file:
-	header = next(file).rstrip().split()
-	header = [x.lower() for x in header]
-	#print header
-	for i, line in enumerate(file):
-		attrs = {(att if att != "rowid" else "usage_id"): val for att, val in zip(header, line.rstrip().split('\t'))}
-		#attrs = {att: val for att, val in zip(header, line.rstrip().split('\t'))}
-		# print(attrs)
-		# break
-		row = Usage(**attrs)
-		db.session.add(row)
-		print("{} finished".format(i))
-		#print Usage.serialize(row)
+# with open(DATA_FILE_PATH) as file:
+# 	header = next(file).rstrip().split()
+# 	header = [x.lower() for x in header]
+# 	#print header
+# 	for i, line in enumerate(file):
+# 		attrs = {(att if att != "rowid" else "usage_id"): val for att, val in zip(header, line.rstrip().split('\t'))}
+# 		#attrs = {att: val for att, val in zip(header, line.rstrip().split('\t'))}
+# 		# print(attrs)
+# 		# break
+# 		row = Usage(**attrs)
+# 		db.session.add(row)
+# 		print("{} finished".format(i))
+# 		#print Usage.serialize(row)
 
-db.session.commit()
+# db.session.commit()
 
-# Load Aggregateusage
-print("loading Aggregateusage...")
+# # Load Aggregateusage
+# print("loading Aggregateusage...")
 
-results = db.engine.execute('SELECT usage_id, facid, buildingname, usagemonth, SUM(globaluse), SUM(globalsqftuse) FROM "USAGE" GROUP BY buildingname, usagemonth')
+# results = db.engine.execute('SELECT usage_id, facid, buildingname, usagemonth, SUM(globaluse), SUM(globalsqftuse) FROM "USAGE" GROUP BY buildingname, usagemonth')
 
-for item_list in results:
-	item_list = {
-		"usage_id": item_list[0],
-		"facid": item_list[1],
-		"buildingname": item_list[2],
-		"usagemonth": item_list[3],
-		"globaluse": item_list[4],
-		"globalsqftuse": item_list[5]
-	}
-	row = Aggregateusage(**item_list)
-	db.session.add(row)
+# for item_list in results:
+# 	item_list = {
+# 		"usage_id": item_list[0],
+# 		"facid": item_list[1],
+# 		"buildingname": item_list[2],
+# 		"usagemonth": item_list[3],
+# 		"globaluse": item_list[4],
+# 		"globalsqftuse": item_list[5]
+# 	}
+# 	row = Aggregateusage(**item_list)
+# 	db.session.add(row)
 
-db.session.commit()
+# db.session.commit()
 
 # Load Building
 print("loading Building...")
