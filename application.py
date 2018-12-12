@@ -160,7 +160,7 @@ def energyovertime():
 			'lng':float(thing[2]),
 			'id':float(thing[0]),
 			'usage':[float(thing[3]) if thing[3] != None else 0.0],
-			'sqftusage':[float(thing[4])],
+			'sqftusage':[float(thing[4]) if thing[4] != None else 0.0],
 			'description':thing[5]
 		}
 
