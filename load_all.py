@@ -35,7 +35,7 @@ with open(DATA_FILE_PATH) as file:
 		# break
 		row = Usage(**attrs)
 		db.session.add(row)
-		print "{} finished".format(i)
+		print("{} finished".format(i))
 		#print Usage.serialize(row)
 
 db.session.commit()
