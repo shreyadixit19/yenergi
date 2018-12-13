@@ -145,11 +145,11 @@ class Weather(db.Model):
 
 @app.route("/")
 def index():
-	return "hi!"
+	return "bye!"
 
 @app.route("/energyovertime")
 def energyovertime():
-	result = db.engine.execute("SELECT Aggregateusage.facid, Building.latitude, Building.longitude, Aggregateusage.globaluse, Aggregateusage.globalsqftuse, Building.description, Aggregateusage.usagemonth FROM Aggregateusage JOIN Building ON Aggregateusage.facid=Building.building WHERE Aggregateusage.facid IN ('2420', '2510', '1820', '2035', '2500', '2505', '2050', '2100', '2145', '2040', '2425', '1350', '1354', '1800')")
+	result = db.engine.execute("SELECT Aggregateusage.facid, Building.latitude, Building.longitude, Aggregateusage.globaluse, Aggregateusage.globalsqftuse, Building.description, Aggregateusage.usagemonth FROM Aggregateusage JOIN Building ON Aggregateusage.facid=Building.building")
 	all_buildings = {}
 	for thing in result:
 		if thing[1] == '[]':
