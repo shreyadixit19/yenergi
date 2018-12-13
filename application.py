@@ -231,15 +231,20 @@ def weather():
 
 	results = []
 	for thing in result:
-		results.append(dict(thing))
-# 		minidict = dict(thing)
-# 		try:
-# 			results.append(float(minidict['tavg']))
-# 		except:
-# 			results.append(0.0)
+		minidict = dict(thing)
+		try:
+			minidict['tavg'] = float(minidict['tavg'])
+		except:
+			minidict['tavg'] = 0.0
+		results.append(minidict)
 
-		
-	return jsonify(results)
+	results = sorted(results, key=lambda student: student['date'])
+
+	actual_results = []
+	for thing in results:
+		actual_results.append(thing['tavg'])
+
+	return jsonify(actual_results)
 
 # def print_dict(s):
 # 	print('{')
