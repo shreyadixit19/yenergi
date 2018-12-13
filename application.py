@@ -159,8 +159,8 @@ def energyovertime():
 			'lat':float(thing[1]),
 			'lng':float(thing[2]),
 			'id':float(thing[0]),
-			'usage':[float(thing[3]) if thing[3] != None else 0.0],
-			'sqftusage':[float(thing[4]) if thing[4] != None else 0.0],
+			'usage':[(thing[6], float(thing[3]))],
+			'sqftusage':[(thing[6], float(thing[4]))],
 			'description':thing[5]
 		}
 
@@ -172,6 +172,13 @@ def energyovertime():
 			all_buildings[thing['id']] = thing
 
 	all_buildings = list(all_buildings.values())
+
+	counter = 1
+	for building in all_buildings:
+		building['usage'] = sorted(building['usage'], key=lambda student: student[0])
+		building['sqftusage'] = sorted(building['sqftusage'], key=lambda student: student[0])
+		building['usage'] = [bleh[1] for bleh in building['usage']]
+		building['sqftusage'] = [bleh[1] for bleh in building['sqftusage']]
 
 	for building in all_buildings:
 		if len(building['usage']) < 182:
@@ -193,8 +200,8 @@ def recenergy():
 			'lat':float(thing[1]),
 			'lng':float(thing[2]),
 			'id':float(thing[0]),
-			'usage':[float(thing[3])],
-			'sqftusage':[float(thing[4])],
+			'usage':[(thing[6], float(thing[3]))],
+			'sqftusage':[(thing[6], float(thing[4]))],
 			'description':thing[5]
 		}
 
@@ -206,6 +213,13 @@ def recenergy():
 			all_buildings[thing['id']] = thing
 
 	all_buildings = list(all_buildings.values())
+
+	counter = 1
+	for building in all_buildings:
+		building['usage'] = sorted(building['usage'], key=lambda student: student[0])
+		building['sqftusage'] = sorted(building['sqftusage'], key=lambda student: student[0])
+		building['usage'] = [bleh[1] for bleh in building['usage']]
+		building['sqftusage'] = [bleh[1] for bleh in building['sqftusage']]
 
 	for building in all_buildings:
 		if len(building['usage']) < 182:
