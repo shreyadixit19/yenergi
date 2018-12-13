@@ -145,7 +145,7 @@ class Weather(db.Model):
 
 @app.route("/")
 def index():
-	return "bye!"
+	return "hello!"
 
 @app.route("/energyovertime")
 def energyovertime():
@@ -159,8 +159,8 @@ def energyovertime():
 			'lat':float(thing[1]),
 			'lng':float(thing[2]),
 			'id':float(thing[0]),
-			'usage':[(thing[6], float(thing[3]))],
-			'sqftusage':[(thing[6], float(thing[4]))],
+			'usage':[(thing[6], float(thing[3]) if thing[3] != None else 0.0)],
+			'sqftusage':[(thing[6], float(thing[4]) if thing[4] != None else 0.0)],
 			'description':thing[5]
 		}
 
