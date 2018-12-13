@@ -231,11 +231,12 @@ def weather():
 
 	results = []
 	for thing in result:
-		minidict = dict(thing)
-		try:
-			results.append(float(minidict['tavg']))
-		except:
-			results.append(0.0)
+		results.append(dict(thing))
+# 		minidict = dict(thing)
+# 		try:
+# 			results.append(float(minidict['tavg']))
+# 		except:
+# 			results.append(0.0)
 
 		
 	return jsonify(results)
