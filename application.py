@@ -244,7 +244,7 @@ def weather():
 	for thing in results:
 		actual_results.append(thing['tavg'])
 
-	return jsonify(results)
+	return jsonify(actual_results)
 
 # def print_dict(s):
 # 	print('{')
