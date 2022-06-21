@@ -11,7 +11,7 @@ MarkupSafe==1.1.0
 modulegraph==0.10.4
 mysql-connector==2.1.6
 mysql-connector-python==8.0.13
-numpy==1.14.3
+numpy==1.22.0
 opencv-python==3.4.0.12
 pandas==0.22.0
 psycopg2==2.7.6.1
